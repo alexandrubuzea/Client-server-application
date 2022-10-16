@@ -1,0 +1,45 @@
+### Second Homework at Communication Protocols
+
+## Copyright Buzea Alexandru-Mihai-Iulian 321CAb 2022
+## E-mail: alexandru.buzea2007@stud.acs.upb.ro
+
+1. Server
+    For the beginning, I created two sockets, one for UDP clients and
+one for TCP clients. Then, I binded them and I used I/O multiplexing
+(with select()) in order to answer simultaneously to the changes
+occured with read file descriptors (sockets and STDIN). Then, for
+each case I considered the type of message that was received and I
+transformed it accordingly. I transformed the structures using
+pointers and structures and my homework is memory safe because of
+the smart pointers (std::shared_ptr<T>) used in the implementation.
+I chose to create an OOP design involving a number of classes for
+the database (including users/clients and subscription system)
+and I used some of the most used OOP principles: encapsulation
+(where it was possible) and polymorphism.
+    The messages received from UDP clients were immediately converted
+as strings (using std::string) and were transmitted through the server-
+client system as such.
+    For the database I used three std::unordered_map instances, one for
+the preferred topics, one for the sockets corresponding to the clients
+and the third one for the id values (I used this one in order to
+determine if a client has been connected before).
+
+2. Client
+The TCP client supports three types of commands (subscribe, unsubscribe
+and exit) for which I created an application-level protocol explained
+in the third section. The subscriber received the commands from STDIN
+and sent an appropriate message to the server, depending on the command
+given
+
+3. Application protocol
+    In order to send messages between TCP clients and TCP server, I implemented
+a protocol which uses the length of the message and its type, which can
+only have three values:
+    -> type == 0 -> subscription message
+    -> type == 1 -> unsubscription message
+    -> type == 2 -> exit message (in order to inform the server)
+    I implemented the protocol using a set of structures, that are defined in
+the server_utils.h header file.
+    The first message sent by the client to the server is a message containing
+only the ID of the client, without any other information, therefore I created
+a special structure (used only once in communication - for each connection).
